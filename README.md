@@ -57,7 +57,7 @@ ai-ticket-triage/
 
 ```bash
 # Clone the repository
-git clone <repo-url> ai-ticket-triage
+git clone https://github.com/Alphashu-bot/ai-ticket-triage
 cd ai-ticket-triage
 
 # Build and start all services
