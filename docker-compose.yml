@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  # ------------------------------------------------------------------ #
+  # Backend — FastAPI + SQLite
+  # ------------------------------------------------------------------ #
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: triage-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - db-data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/tickets.db
+      - DEBUG=false
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------ #
+  # Frontend — React + Vite
+  # ------------------------------------------------------------------ #
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: triage-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    restart: unless-stopped
+
+volumes:
+  db-data:
